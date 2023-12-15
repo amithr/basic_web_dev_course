@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>React State and Event Handling Example</title>
+    <!-- Load React, ReactDOM, and Babel from CDN -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        class Counter extends React.Component {
+            constructor(props) {
+                super(props);
+                // State initialization
+                this.state = { count: 0 };
+            }
+
+            // Method to increment the count
+            incrementCount = () => {
+                this.setState(prevState => ({
+                    count: prevState.count + 1
+                }));
+            };
+
+            render() {
+                return (
+                    <div>
+                        <h1>Count: {this.state.count}</h1>
+                        <button onClick={this.incrementCount}>Increment</button>
+                    </div>
+                );
+            }
+        }
+
+        // Render the Counter component inside the `root` element
+        ReactDOM.render(<Counter />, document.getElementById('root'));
+    </script>
+</body>
+</html>

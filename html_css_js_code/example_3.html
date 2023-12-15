@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML with CSS and JavaScript</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 50px;
+        }
+        .my-paragraph {
+            color: #333333;
+            font-size: 20px;
+        }
+        .my-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin: 10px 0;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .my-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Simple HTML with CSS and JavaScript</h1>
+    <p class="my-paragraph">Click the button to change my color!</p>
+    <button class="my-button" onclick="changeColor()">Change Color</button>
+
+    <script>
+        function changeColor() {
+            var para = document.querySelector('.my-paragraph');
+            para.style.color = para.style.color === 'blue' ? '#333333' : 'blue';
+        }
+    </script>
+
+</body>
+</html>
