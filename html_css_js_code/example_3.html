@@ -1,44 +1,40 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>HTML with CSS and JavaScript</title>
+    <title>Simple HTML and CSS Example</title>
     <style>
+        /* CSS styles go here */
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
             text-align: center;
-            padding: 50px;
+            padding: 20px;
         }
-        .my-paragraph {
-            color: #333333;
-            font-size: 20px;
+        h1 {
+            font-size: 36px;
         }
-        .my-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            margin: 10px 0;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        .my-button:hover {
-            background-color: #45a049;
+        p {
+            font-size: 18px;
+            margin: 20px;
         }
     </style>
 </head>
 <body>
-
-    <h1>Simple HTML with CSS and JavaScript</h1>
-    <p class="my-paragraph">Click the button to change my color!</p>
-    <button class="my-button" onclick="changeColor()">Change Color</button>
-
-    <script>
-        function changeColor() {
-            var para = document.querySelector('.my-paragraph');
-            para.style.color = para.style.color === 'blue' ? '#333333' : 'blue';
-        }
-    </script>
-
+    <!-- HTML content goes here -->
+    <header>
+        <h1>Welcome to My Website</h1>
+    </header>
+    <main>
+        <p>This is a simple example of using HTML and CSS to create a webpage.</p>
+        <p>You can style elements to make your webpage look more attractive and organized.</p>
+    </main>
 </body>
 </html>
+
