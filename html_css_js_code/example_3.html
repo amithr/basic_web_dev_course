@@ -4,37 +4,74 @@
 <head>
     <title>Simple HTML and CSS Example</title>
     <style>
-        /* CSS styles go here */
+        /* Reset some default styles and apply a basic font */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
             margin: 0;
             padding: 0;
+            line-height: 1.6;
         }
+
+        /* Create a header with a background color and centered text */
         header {
             background-color: #333;
             color: #fff;
             text-align: center;
             padding: 20px;
         }
+
+        /* Style the main content area with a white background */
+        main {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Style headings and paragraphs */
         h1 {
             font-size: 36px;
+            margin-bottom: 20px;
         }
+
         p {
             font-size: 18px;
-            margin: 20px;
+            margin-bottom: 10px;
+        }
+
+        /* Create a button with a hover effect */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
     <!-- HTML content goes here -->
     <header>
-        <h1>Welcome to My Website</h1>
+        <h1>Welcome to My Stylish Website</h1>
     </header>
     <main>
-        <p>This is a simple example of using HTML and CSS to create a webpage.</p>
-        <p>You can style elements to make your webpage look more attractive and organized.</p>
+        <p>This is a simple example of using HTML and CSS to create a stylish webpage.</p>
+        <p>You can easily customize your webpage with various CSS properties:</p>
+        <ul>
+            <li>Change font styles and sizes.</li>
+            <li>Add background colors and borders.</li>
+            <li>Create buttons with hover effects.</li>
+        </ul>
+        <a href="#" class="btn">Learn More</a>
     </main>
 </body>
 </html>
+
 

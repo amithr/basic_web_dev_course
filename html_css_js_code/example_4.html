@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSS Grid Example</title>
+    <style>
+        /* Define a grid container */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Create 3 equal-width columns */
+            grid-gap: 20px; /* Add some gap between grid items */
+        }
+
+        /* Style individual grid items */
+        .grid-item {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        /* Additional styling for demonstration purposes */
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CSS Grid Example</h1>
+        <p>Click and drag to resize the browser window to see the responsive grid in action.</p>
+    </header>
+    
+    <!-- Grid container -->
+    <div class="grid-container">
+        <!-- Grid items -->
+        <div class="grid-item">1</div>
+        <div class="grid-item">2</div>
+        <div class="grid-item">3</div>
+        <div class="grid-item">4</div>
+        <div class="grid-item">5</div>
+        <div class="grid-item">6</div>
+    </div>
+</body>
+</html>
