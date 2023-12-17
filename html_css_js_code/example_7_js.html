@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JavaScript and FastAPI Integration</title>
+    <script>
+        // Function to make an API request to FastAPI
+        function makeApiRequest() {
+            fetch('http://localhost:8000/items/1')
+                .then(response => response.json())
+                .then(json => {
+                    document.getElementById("apiResponse").innerHTML = JSON.stringify(json, null, 2);
+                })
+                .catch(error => {
+                    document.getElementById("apiResponse").innerHTML = 'Error: ' + error;
+                });
+        }
+    </script>
+</head>
+<body>
+    <h1>JavaScript and FastAPI Integration</h1>
+
+    <button onclick="makeApiRequest()">Make API Request</button>
+    <pre id="apiResponse"></pre>
+</body>
+</html>
