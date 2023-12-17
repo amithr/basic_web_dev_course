@@ -18,16 +18,15 @@
             document.getElementById("hiddenContent").style.display = 'none';
         }
 
-        // Function to update time
         function updateTime() {
-            var currentTime = new Date();
-            document.getElementById("timeDisplay").innerHTML = currentTime.toLocaleTimeString();
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('clock').textContent = timeString;
         }
 
-        // Function to open a popup window
-        function openPopup() {
-            window.open('https://example.com', 'Popup', 'width=600,height=400');
-        }
+        window.onload = function() {
+            setInterval(updateTime, 1000);
+        };
 
         // Function to make an API request
         function makeApiRequest() {
