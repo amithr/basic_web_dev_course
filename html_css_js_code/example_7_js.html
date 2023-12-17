@@ -6,6 +6,7 @@
         // Function to make an API request to FastAPI
         function makeApiRequest() {
             fetch('http://localhost:8000/items/1')
+                // Mention promises
                 //response itself is the direct response from the API server
                 //json() returns a promise that contains JSON
                 .then(response => response.json())
