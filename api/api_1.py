@@ -1,5 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+#pip install fastapi uvicorn
+#uvicorn main:app --reload
+
+
 
 app = FastAPI()
 
