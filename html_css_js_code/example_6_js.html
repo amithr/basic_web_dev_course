@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JavaScript Examples for Beginners</title>
+    <script>
+        // Function to change text
+        function changeText() {
+            document.getElementById("textChange").innerHTML = "Text Updated!";
+        }
+
+        // Function to show hidden content
+        function showContent() {
+            document.getElementById("hiddenContent").style.display = 'block';
+        }
+
+        // Function to hide content
+        function hideContent() {
+            document.getElementById("hiddenContent").style.display = 'none';
+        }
+
+        // Function to update time
+        function updateTime() {
+            var currentTime = new Date();
+            document.getElementById("timeDisplay").innerHTML = currentTime.toLocaleTimeString();
+        }
+
+        // Function to open a popup window
+        function openPopup() {
+            window.open('https://example.com', 'Popup', 'width=600,height=400');
+        }
+
+        // Function to make an API request
+        function makeApiRequest() {
+            fetch('https://jsonplaceholder.typicode.com/posts/1')
+                .then(response => response.json())
+                .then(json => {
+                    document.getElementById("apiResponse").innerHTML = JSON.stringify(json, null, 2);
+                })
+                .catch(error => {
+                    document.getElementById("apiResponse").innerHTML = 'Error: ' + error;
+                });
+        }
+    </script>
+</head>
+<body>
+    <h1>JavaScript Examples for Beginners</h1>
+
+    <button onclick="changeText()">Click to Change Text</button>
+    <p id="textChange">Click the button to change this text.</p>
+
+    <button onclick="showContent()">Show Content</button>
+    <button onclick="hideContent()">Hide Content</button>
+    <div id="hiddenContent" style="display:none;">
+        <p>This is some hidden content!</p>
+    </div>
+
+    <button onclick="updateTime()">Show Current Time</button>
+    <p id="timeDisplay">Click the button to display the current time.</p>
+
+    <button onclick="openPopup()">Open Popup Window</button>
+
+    <button onclick="makeApiRequest()">Make API Request</button>
+    <pre id="apiResponse"></pre>
+</body>
+</html>

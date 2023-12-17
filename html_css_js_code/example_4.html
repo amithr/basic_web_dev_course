@@ -3,32 +3,24 @@
 <head>
     <title>CSS Grid Example</title>
     <style>
-        /* Define a grid container */
-        .grid-container {
+        #grid-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Create 3 equal-width columns */
-            grid-gap: 20px; /* Add some gap between grid items */
+            grid-template-columns: repeat(3, 1fr);
         }
-
-        /* Style individual grid items */
         .grid-item {
             background-color: #007bff;
-            color: #fff;
+            color: white;
             text-align: center;
-            padding: 20px;
-            border-radius: 5px;
+            padding:20px;
+            border-style: solid;
+            border-color:white;
+            border-width:5px;
+            transition: transform 0.3s ease
         }
 
-        /* Additional styling for demonstration purposes */
-        header {
-            text-align: center;
-            padding: 20px;
-            background-color: #333;
-            color: #fff;
-        }
-
-        h1 {
-            font-size: 24px;
+        .grid-item:hover {
+            background-color: aqua;
+            transform: scale(1.1)
         }
     </style>
 </head>
