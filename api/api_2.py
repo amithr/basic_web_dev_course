@@ -1,41 +1,83 @@
-# Import FastAPI and Pydantic's BaseModel
+import sqlite3
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-from typing import Optional
+from fastapi.middleware.cors import CORSMiddleware
 
-# Create an instance of the FastAPI class
 app = FastAPI()
 
-# A simple database simulation using a dictionary
-fake_database = {}
+origins = ["*"]
 
-# Pydantic model for item
-class Item(BaseModel):
-    name: str
-    description: Optional[str] = None
-    price: float
-    tax: Optional[float] = None
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
-# GET route to read the root
-@app.get("/")
-async def read_root():
-    return {"message": "Welcome to the FastAPI example application!"}
+# Database connection function
+def get_db_connection():
+    # connection object
+    conn = sqlite3.connect('user.db')
+    # rows are returned as tuples
+    # Once a tuple is created, you can't change, add, or remove elements.
+    conn.row_factory = sqlite3.Row
+    return conn
 
-# GET route to get an item by ID
-@app.get("/items/{item_id}")
-async def read_item(item_id: int):
-    if item_id not in fake_database:
-        raise HTTPException(status_code=404, detail="Item not found")
-    return fake_database[item_id]
+# Initialize the database and create table if not exists
+def init_db():
+    conn = get_db_connection()
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE
+        )
+    ''')
+    conn.commit()
+    conn.close()
 
-# POST route to create an item
-@app.post("/items/")
-async def create_item(item: Item):
-    item_id = len(fake_database) + 1
-    fake_database[item_id] = item
-    return item
+# Initialize the database
+init_db()
 
-# GET route with both path parameters and query parameters
-@app.get("/users/{user_id}/items/{item_id}")
-async def read_user_item(user_id: int, item_id: int, query: Optional[str] = None):
-    return {"user_id": user_id, "item_id": item_id, "query": query}
+@app.post("/users/")
+def create_user(name: str, email: str):
+    conn = get_db_connection()
+    # cursor object used to traverse database and get a result accordingly
+    cursor = conn.cursor()
+    cursor.execute('INSERT INTO users (name, email) VALUES (?, ?)', (name, email))
+    conn.commit()
+    conn.close()
+    return {"message": "User created"}
+
+@app.get("/users/{user_id}")
+def read_user(user_id: int):
+    conn = get_db_connection()
+    user = conn.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
+    conn.close()
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return dict(user)
+
+@app.put("/users/{user_id}/{change_param}/{payload}")
+def update_user(user_id: int, change_param: str=None, payload: str=None):
+    conn = get_db_connection()
+    user = conn.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
+    if user is None:
+        conn.close()
+        raise HTTPException(status_code=404, detail="User not found")
+
+    if change_param == "name":
+        conn.execute('UPDATE users SET name = ? WHERE id = ?', (payload, user_id))
+    if change_param == "email":
+        conn.execute('UPDATE users SET email = ? WHERE id = ?', (payload, user_id))
+    conn.commit()
+    conn.close()
+    return {"message": "User updated"}
+
+@app.delete("/users/{user_id}")
+def delete_user(user_id: int):
+    conn = get_db_connection()
+    conn.execute('DELETE FROM users WHERE id = ?', (user_id,))
+    conn.commit()
+    conn.close()
+    return {"message": "User deleted"}
