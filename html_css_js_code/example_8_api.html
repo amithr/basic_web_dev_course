@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple CRUD Webpage</title>
+    <script>
+        async function createUser() {
+            const name = document.getElementById('create-name').value;
+            const email = document.getElementById('create-email').value;
+            const response = await fetch('http://localhost:8000/users/', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({name: name, email: email})
+            });
+            const data = await response.json();
+            alert(JSON.stringify(data));
+        }
+
+        async function readUser() {
+            const userId = document.getElementById('read-id').value;
+            const response = await fetch(`http://localhost:8000/users/${userId}`);
+            const data = await response.json();
+            document.getElementById('read-result').textContent = JSON.stringify(data);
+        }
+
+        async function updateUser() {
+            const userId = document.getElementById('update-id').value;
+            const updateType = document.getElementById('update-type').value;
+            const updateValue = document.getElementById('update-value').value;
+            const response= await fetch('http://localhost:8000/users/', {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({user_id: userId, change_param: updateType, payload: updateValue})
+            });
+            const data = await response.json();
+            alert(JSON.stringify(data));
+        }
+
+        async function deleteUser() {
+            const userId = document.getElementById('delete-id').value;
+            const response = await fetch(`http://localhost:8000/users/${userId}`, {
+                method: 'DELETE'
+            });
+            const data = await response.json();
+            alert(JSON.stringify(data));
+        }
+    </script>
+</head>
+<body>
+    <h2>Create User</h2>
+    <input type="text" id="create-name" placeholder="Name">
+    <input type="text" id="create-email" placeholder="Email">
+    <button onclick="createUser()">Create</button>
+
+    <h2>Read User</h2>
+    <input type="text" id="read-id" placeholder="User ID">
+    <button onclick="readUser()">Read</button>
+    <p id="read-result"></p>
+
+    <h2>Update User</h2>
+    <input type="text" id="update-id" placeholder="User ID">
+    <input type="text" id="update-type" placeholder="Update Type">
+    <input type="text" id="update-value" placeholder="Update Value">
+    <button onclick="updateUser()">Update</button>
+
+    <h2>Delete User</h2>
+    <input type="text" id="delete-id" placeholder="User ID">
+    <button onclick="deleteUser()">Delete</button>
+</body>
+</html>

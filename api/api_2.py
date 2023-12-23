@@ -1,6 +1,8 @@
 import sqlite3
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+import json
+
 
 app = FastAPI()
 
@@ -40,14 +42,26 @@ def init_db():
 init_db()
 
 @app.post("/users/")
-def create_user(name: str, email: str):
-    conn = get_db_connection()
-    # cursor object used to traverse database and get a result accordingly
-    cursor = conn.cursor()
-    cursor.execute('INSERT INTO users (name, email) VALUES (?, ?)', (name, email))
-    conn.commit()
-    conn.close()
-    return {"message": "User created"}
+async def create_user(request:Request):
+    try:
+        data = await request.json()
+        name = data.get('name')
+        email = data.get('email')
+
+        if not name or not email:
+            raise ValueError("User and email are not included.")
+
+        conn = get_db_connection()
+        # cursor object used to traverse database and get a result accordingly
+        cursor = conn.cursor()
+        cursor.execute('INSERT INTO users (name, email) VALUES (?, ?)', (name, email))
+        conn.commit()
+        conn.close()
+        return {"message": "User created"}
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=400, detail="Invalid JSON.")
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
 
 @app.get("/users/{user_id}")
 def read_user(user_id: int):
@@ -58,21 +72,35 @@ def read_user(user_id: int):
         raise HTTPException(status_code=404, detail="User not found")
     return dict(user)
 
-@app.put("/users/{user_id}/{change_param}/{payload}")
-def update_user(user_id: int, change_param: str=None, payload: str=None):
-    conn = get_db_connection()
-    user = conn.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
-    if user is None:
-        conn.close()
-        raise HTTPException(status_code=404, detail="User not found")
+@app.put("/users/")
+async def update_user(request:Request):
+    try:
+        data = await request.json()
+        user_id = data.get('user_id')
+        change_param = data.get('change_param')
+        payload = data.get('payload')
 
-    if change_param == "name":
-        conn.execute('UPDATE users SET name = ? WHERE id = ?', (payload, user_id))
-    if change_param == "email":
-        conn.execute('UPDATE users SET email = ? WHERE id = ?', (payload, user_id))
-    conn.commit()
-    conn.close()
-    return {"message": "User updated"}
+        # Validate the data
+        if not user_id or not change_param or not payload:
+            raise ValueError("User ID, parameter to change, and value are not included.")
+
+        conn = get_db_connection()
+        user = conn.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
+        if user is None:
+            conn.close()
+            raise HTTPException(status_code=404, detail="User not found")
+
+        if change_param == "name":
+            conn.execute('UPDATE users SET name = ? WHERE id = ?', (payload, user_id))
+        if change_param == "email":
+            conn.execute('UPDATE users SET email = ? WHERE id = ?', (payload, user_id))
+        conn.commit()
+        conn.close()
+        return {"message": "User updated"}
+    except json.JSONDecodeError:
+        raise HTTPException(status_code=400, detail="Invalid JSON.")
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
 
 @app.delete("/users/{user_id}")
 def delete_user(user_id: int):
