@@ -6,14 +6,8 @@
         // Function to make an API request to FastAPI
         function makeApiRequest() {
             fetch('http://localhost:8000/items/1')
-                // Mention promises
-                //response itself is the direct response from the API server
-                //json() returns a promise that contains JSON
                 .then(response => response.json())
                 .then(json => {
-                    // stringify() converts a JS object to a JS string
-                    // stringify(json, null, 2) converts a JS object to a JS string
-                    // null and 2 simply affect the appearance
                     document.getElementById("apiResponse").innerHTML = JSON.stringify(json);
                 })
                 .catch(error => {
